@@ -19,8 +19,8 @@ type
           Color   : TAlphaColor;      { 色情報追加}
    end;
   PLinePoint = ^TLinePoint;
-
   TMainForm = class(TForm)
+    Layout1: TLayout;
     PaintBox1: TPaintBox;
     ColorPalettePanel: TRectangle;
     Rectangle1: TRectangle;
@@ -59,8 +59,6 @@ implementation
 
 {$R *.fmx}
 
-
-
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
     DrawPoints  := TList<TLinePoint>.Create;  { 描画用の点リストの構築 }
@@ -94,7 +92,6 @@ begin
        AddPoint( x, y ,sStart,SelectColor);   { 描画用の点設定:開始}
      end;
 end;
-
 
 procedure TMainForm.PaintBox1MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Single);
