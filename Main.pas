@@ -45,7 +45,7 @@ type
     DrawPoints  : TList<TLinePoint>;
     PressStatus : Boolean;
     SelectColor : TAlphaColor;       { 色情報追加 }
-    procedure AddPoint(const x, y: single; const Status: TLineStatus; Color: TAlphaColor); { 色情報追加 }
+    procedure AddPoint(const x, y: single; const Status: TLineStatus; const Color: TAlphaColor); { 色情報追加 }
      { private 宣言 }
 
   public
@@ -70,7 +70,7 @@ begin
   DrawPoints.DisposeOf;   { 描画点リストの破棄 }
 end;
 
-procedure TMainForm.AddPoint(const x, y: single; const Status: TLineStatus; Color: TAlphaColor);
+procedure TMainForm.AddPoint(const x, y: single; const Status: TLineStatus; const Color: TAlphaColor);
 var
     TLP: TLinePoint;    { 仮Line Point }
 begin
