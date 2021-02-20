@@ -9,10 +9,10 @@ uses
   FMX.Layouts;
 
 type
-  { Lineを表示するための位置への情報 ssStart = 開始, ssNext= 継続　, ssEnd =終端 }
+  { Lineを表示するための位置への情報 sStart = 開始, sNext= 継続　, sEnd =終端 }
  TLineStatus = (sStart, sNext, sEnd);
 
-  { Line 描画の位置、Statusを構造体として定義}
+  { Line 描画点、Status、構造体として定義}
   TLinePoint = record
           Positon : TPointF;
           Status  : TLineStatus;
@@ -61,13 +61,13 @@ implementation
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-    DrawPoints  := TList<TLinePoint>.Create;  { 描画用の点リストの構築 }
+    DrawPoints := TList<TLinePoint>.Create;  { 描画点リストの構築 }
     SelectColor :=  TAlphaColorRec.Black;     { 初期色を黒とする }
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
-  DrawPoints.DisposeOf;   { 描画用の点リストの破棄 }
+  DrawPoints.DisposeOf;   { 描画点リストの破棄 }
 end;
 
 procedure TMainForm.AddPoint(const x, y: single; const Status: TLineStatus; Color: TAlphaColor);
@@ -78,7 +78,7 @@ begin
 
         TLP.Color   := Color;                  { 色データ設定 }
         TLP.Positon := PointF(x, y);           { 設定データ仮作成 }
-        TLP.Status  := Status;
+        TLP.Status  := Status;                 { ラインステータスを保存 }
         DrawPoints.Add(TLP);                   { Listに追加 }
         PaintBox1.Repaint;                     { 再描画 }
 end;
@@ -86,10 +86,10 @@ end;
 procedure TMainForm.PaintBox1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Single);
 begin
-     if ssLeft in Shift then      { 左ボタン押している？ }
+     if ssLeft in Shift then      { 左ボタン押している?}
      begin
        PressStatus := True;       { 左ボタン押し状態設定 }
-       AddPoint( x, y ,sStart,SelectColor);   { 描画用の点設定:開始}
+       AddPoint( x, y ,sStart,SelectColor);   { ラインステータス:開始でリスト追加}
      end;
 end;
 
@@ -99,16 +99,16 @@ begin
      if ssLeft in Shift then      { 左ボタン押している？ }
      begin
        if(PressStatus =  True) then  { 押し検出済み?}
-       AddPoint( x, y ,sNext,SelectColor);   { 描画用の点設定:継続}
+       AddPoint( x, y ,sNext,SelectColor);   { ラインステータス:継続でリスト追加}
      end;
 end;
 
 procedure TMainForm.PaintBox1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Single);
 begin
-    if(PressStatus =  True) then
+    if(PressStatus =  True) then  { 左ボタン押していた？ }
     begin
-       AddPoint( x, y ,sEnd,SelectColor);   { 描画用の点設定:終端}
+       AddPoint( x, y ,sEnd,SelectColor);   { ラインステータス:終端でリスト追加}
     end;
     PressStatus := false;       {押し状態を解除}
 end;
